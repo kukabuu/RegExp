@@ -11,4 +11,27 @@ test --> ..  <!----> ..
 "color: #3f3; background-color: #AA00ef; and: #abcd".match(/#([a-z0-9]{3}){1,2}\b/gi); //"#3f3", "#AA00ef"
 "-1.5 0 2 -123.4.".match(/-?\d+(\.\d+)?/g); //"-1.5", "0", "2", "-123.4"
 
-console.log(res);
+//Alternation
+`
+  [b]hello![/b]
+  [quote]
+    [url]http://google.com[/url]
+  [/quote]
+`.match(/\[(url|b|quote)\].*?\[\/\1\]/gs); //["[b]hello![/b]", "[quote]↵    [url]http://google.com[/url]↵  [/quote]"]
+' .. "test me" .. "Say \\"Hello\\"!" .. "\\\\ \\"" .. '.match(/"(\\.|[^"\\])*?"/g); //[""test me"", ""Say \"Hello\"!"", ""\\ \"""]
+'<style> <styler> <style test="...">'.match(/<style(>|\s.*?>)/g);
+
+//Lookahead and lookbehind
+
+//1. Create a regexp that looks for only non-negative ones (zero is allowed).
+"0 12 -5 123 -18".match(/(?<![-\d])\d+/g);
+
+//2. Paste <h1>Hello</h1> after <body> tag. It may have atributes.
+`
+<html>
+  <body style="height: 200px">
+  ...
+  </body>
+</html>
+`.replace(/(?<=<body.*>)/si,<h1>Hello</h1>)
+
